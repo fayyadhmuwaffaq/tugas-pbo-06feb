@@ -1,71 +1,79 @@
 <?php 
 // Kelas Produk sebagai kelas dasar
-class Produk {
+class Kendaraan {
         // property dari kelas Produk;
-        public      $judul,      
-                    $penulis,   
-                    $penerbit;
-        protected   $harga;      
+        public      $nama,      
+                    $merk,   
+                    $pembuat;
+        protected   $diskon;
+        private     $harga;      
         // Konstruktor kelas Produk
-        public function __construct($judul= "Judul", $penulis= "penulis", $penerbit= "penerbit", $harga= 0,) {
-            $this->judul        = $judul;
-            $this->penulis      = $penulis;
-            $this->penerbit     = $penerbit;
-            $this->harga        = $harga;
+        public function __construct($nama= "nama", $merk= "merk", $pembuat= "pembuat", $harga= 0,) {
+            $this->nama     = $nama;
+            $this->merk     = $merk;
+            $this->pembuat  = $pembuat;
+            $this->harga    = $harga;
         }
-        // Metode untuk mendapatkan label (penulis dan penerbit)
+        // Metode untuk mendapatkan label (pembuat dan merk)
         public function getLabel() {
-            return "$this->penulis, $this->penerbit";
+            return "$this->pembuat, $this->merk";
         }
         // Metode untuk mendapatkan informasi produk secara keseluruhan
         public function getInfoProduk() {
-            $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+            $str = "{$this->nama} | {$this->merk} (Rp. {$this->harga})";
             return $str;
         }
+
+        public function setDiskon($diskon){
+            $this->diskon = $diskon;
+        }
+    
+        public function getHarga(){
+            return $this->harga - ($this->harga * $this->diskon / 100);
+        }
+
     }
 class CetakInfoProduk {
         // Metode untuk mencetak informasi produk
-        public function cetak( Produk $produk){
-            $str = "{$produk->judul} | {$produk->getLabel()} (Rp. {$produk->harga})";
+        public function cetak( Kendaraan $kendaraan){
+            $str = "{$kendaraan->nama} | {$kendaraan->getLabel()} (Rp. {$kendaraan->harga})";
             return $str;
     }
 }
-class Komik extends Produk {
-        // Properti tambahan kelas Komik
-        public $jmlHalaman;
-        // Konstruktor kelas Komik
-        public function __construct($judul= "Judul", $penulis= "penulis", $penerbit= "penerbit", $harga= 0, $jmlHalaman = 0 )
+class Mobil extends Kendaraan {
+        // Properti tambahan kelas Mobil
+        public $seri;
+        // Konstruktor kelas Mobil
+        public function __construct($nama= "nama", $merk= "merk", $pembuat= "pembuat", $harga= 0, $seri = "none" )
         {
             // Memanggil konstruktor kelas Produk menggunakan parent::__construct()
-            parent::__construct($judul, $penulis , $penerbit, $harga);
-            $this->jmlHalaman = $jmlHalaman;
+            parent::__construct($nama, $merk , $pembuat, $harga);
+            $this->seri = $seri;
         }
         // Override metode getInfoProduk() untuk memberikan informasi khusus Komik
         public function getInfoProduk(){
             // parent::getInfoProduk maksudnya dia adalah methode static
             // parent artinya adalah untuk mengambil property atau methode 
-            $str = "Komik : " . parent::getInfoProduk() . " - {$this->jmlHalaman} Halaman.";
+            $str = "Mobil : " . parent::getInfoProduk() . " seri {$this->seri}.";
             return $str;
         }
 }
-class Game extends Produk {
-        // Properti tambahan kelas Game
-        public $waktuMain;
+class Motor extends Kendaraan {
+        // Properti tambahan kelas Motor
+        public $luasjok;
         // Konstruktor kelas Game
-        public function __construct($judul= "Judul", $penulis= "penulis", $penerbit= "penerbit", $harga= 0, $waktuMain = 0 )
+        public function __construct($nama= "nama", $merk= "merk", $pembuat= "pembuat", $harga= 0, $luasjok = 0 )
         {
-            parent::__construct($judul, $penulis , $penerbit, $harga);
-            $this->waktuMain = $waktuMain;
+            parent::__construct($nama, $merk , $pembuat, $harga);
+            $this->luasjok = $luasjok;
         }
         // Override metode getInfoProduk() untuk memberikan informasi khusus Game
         public function getInfoProduk() {
-            $str = "Game : " . parent::getInfoProduk() . " - {$this->waktuMain} Jam.";
+            $str = "Motor : " . parent::getInfoProduk() . "  {$this->luasjok} cm3.";
             return $str ;
         }
 }
-    $produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
-    $produk2 = new Game("Uncharted", "Neil Duckmanmn", "Sony Computer", 250000,50);
-// Pemanggilan metode getInfoProduk() untuk mendapatkan informasi produk
+// panggil infonya
 echo $produk1->getInfoProduk();
 echo "<br>" ;
 echo $produk2->getInfoProduk();
